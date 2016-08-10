@@ -1,0 +1,619 @@
+.preloader
+  position: fixed
+  display: flex
+  justify-content: center
+  align-items: center
+  z-index: 1000
+  overflow: hidden
+  top: 0
+  left: 0
+  width: 100%
+  height: 100%
+  background-color: $rose
+
+.preloader-item
+  position: relative
+  display: block
+  width: 50px
+  height: 50px
+
+  &::before,
+  &::after
+    content: ''
+    display: block
+    position: absolute
+    top: 0
+    width: 25px
+    background-color: white
+    animation: rotate steps(4) 2s infinite
+
+  &::before
+    left: 0
+    width: 50px
+    height: 25px
+    animation: blockmoveY 2s infinite
+
+  &::after
+    height: 50px
+    left: 25px
+    animation: blockmoveX  2s infinite
+
+// preloader-item keyframes
+@keyframes blockmoveY
+  0, 100%
+    transform: translateY(0)
+
+  50%
+    transform: translateY(25px)
+
+@keyframes blockmoveX
+  0, 100%
+    transform: translateX(0)
+  50%
+    transform: translateX(-25px)
+
+@keyframes rotate
+   0
+      transform: rotate(0deg)
+
+   100%
+      transform: rotate(360deg)
+
+
+// ========================
+// navigation components
+// ========================
+
+body
+  &.nav-is-open
+    overflow: hidden
+
+.scroll-top
+  position: fixed
+  display: block
+  color: transparent
+  width: 44px
+  height: 44px
+  z-index: 500
+  bottom: 10px
+  right: 10px
+  border-radius: 50%
+  background-color: rgba(white, 0.2)
+  transform: translate3d(0, 0, 0)
+
+  &::before,
+  &::after
+    content: ''
+    position: absolute
+    top: 18px
+    display: block
+    width: 20px
+    height: 5px
+    background-color: rgba($rose, 0.8)
+
+  &::before
+    left: 6px
+    transform: rotate(-45deg)
+
+  &::after
+    right: 6px
+    transform: rotate(45deg)
+
+// main-navigation
+.nav
+  display: block
+  position: absolute
+  top: 49px
+  left: 0
+  display: flex
+  width: 100%
+  justify-content: center
+  align-items: center
+  background-color: white
+  transform-origin: top center
+  opacity: 0
+  transform: translate3d(0, 0, 0) scale(1, 0)
+  transition: all 0.25s ease
+  @include breakpoint(laptop)
+    position: relative
+    top: 0
+    transform: scale(1)
+    opacity: 1
+    justify-content: flex-end
+
+  &.is-active
+    opacity: 1
+    //visibility: visible
+    transform: translate3d(0, 0, 0) scale(1)
+
+  &__links
+    display: flex
+    height: 100%
+    padding: 25px 0
+    flex-direction: column
+    align-items: center
+    text-transform: uppercase
+    color: white
+    @include breakpoint(laptop)
+      flex-direction: row
+      padding: 0
+
+
+  &__link
+    position: relative
+    color: $dark-grey
+    font-size: 1.8em
+    padding: 10px
+    margin: 5px
+    transition: all 300ms ease
+    &::before,
+    &::after
+      content: ''
+      position: absolute
+      left: 0
+      display: block
+      width: 100%
+      height: 1px
+      background-color: $rose
+      opacity: 0
+
+      transition: all 300ms ease
+
+    &::before
+      top: 0
+      transform: translateY(-10px) scale(0.1)
+
+    &::after
+      bottom: 0
+      transform: translateY(10px) scale(0.1)
+
+    &:hover
+      color: $rose
+      &::before,
+      &::after
+        opacity: 1
+        transform: translateY(0) scale(1)
+
+
+
+
+// burger
+.burger
+  z-index: 1000
+  border: none
+  overflow: hidden
+  height: 50px
+  padding: 10px
+  display: flex
+  cursor: pointer
+  flex-direction: column
+  justify-content: space-between
+  @include breakpoint(laptop)
+    display: none
+
+  &__line
+    display: block
+    width: 50px
+    height: 3px
+    background-color: $rose
+    transition: transform 0.2s ease
+
+    &--top,
+    &--bottom
+      will-change: transform
+      transform-origin: left
+      transform: rotate(0)
+
+    &--middle
+      transform: translate3d(0, 0, 0)
+
+  // burger active state
+  &.is-active
+
+    .burger__line
+      transition: transform 0.2s ease
+
+      &--top
+        transform-origin: top left
+        transform: translate3d(7px, 0, 0) rotate(35deg)
+
+      &--middle
+        opacity: 0
+
+      &--bottom
+        transform-origin: bottom left
+        transform: translate3d(7px, 0, 0) rotate(-35deg)
+
+
+// navigation-logo
+.logo
+  display: block
+  margin-left: 15px
+  color: white
+  @include breakpoint(laptop)
+    margin-left: 0
+
+
+// buttons
+.btn
+  display: inline-block
+  border: none
+  border-radius: 5px
+  color: white
+  font-size: 1.6em
+  text-transform: uppercase
+  text-align: center
+  padding: 15px 25px
+  line-height: 1
+
+  &--rounded
+    border-radius: 50px
+    color: black
+    background-color: white
+    transition: all 300ms ease
+
+    &:hover
+      color: white
+      background-color: $rose
+
+  &--block
+    display: block
+    width: 100%
+
+  &--danger
+    background-color: $rose
+    transition: all 300ms ease
+    &:hover
+      background-color: darken($rose, 5%)
+
+// thumbnail
+.thumbnail
+  padding: 15px
+  text-align: center
+  margin-bottom: 50px
+
+  &__img
+    width: 50px
+    height: 50px
+    margin-bottom: 25px
+
+  &__title
+    font-size: 1.8em
+    margin-top: 20px
+    margin-bottom: 10px
+
+  &__text
+    color: rgba(white, 0.6)
+    font-size: 1.6em
+
+
+// media
+.media-list
+  margin-top: 50px
+
+.media
+  display: flex
+  flex-direction: column
+  margin-bottom: 25px
+  @include breakpoint(phablet)
+    flex-direction: row
+  @include breakpoint(laptop)
+
+    &--right
+      text-align: right
+      flex-direction: row-reverse
+
+      .media__content
+        margin-right: 15px
+        margin-left: 0
+
+  &__img
+    display: inline-block
+    max-width: 35px
+    height: 35px
+
+  &__content
+    margin-top: 15px
+    @include breakpoint(phablet)
+      margin-top: 0
+      margin-left: 15px
+
+  &__title
+    font-size: 2em
+    margin-bottom: 10px
+
+  &__text
+    color: rgba(white, 0.6)
+    font-size: 1.6em
+    margin-bottom: 15px
+
+
+// pricing-plan
+.pricing-plan
+  overflow: hidden
+  border-radius: 5px
+  background-color: white
+  max-width: 320px
+  margin: 0 auto 50px
+  @include breakpoint(laptop)
+    margin-bottom: 0
+
+  &--popular
+    border: 1px solid $rose
+
+  &__head
+    position: relative
+    padding: 25px 15px
+    background-color: $light-grey
+
+  &__tag
+    position: absolute
+    right: 0
+    top: 25px
+    background-color: $rose
+    border-top-left-radius: 25px
+    border-bottom-left-radius: 25px
+    font-size: 1.4em
+    padding: 5px 5px 5px 15px
+    text-transform: uppercase
+
+  &__body
+    padding: 25px 15px
+    border-bottom: 1px solid rgba($dark-grey, 0.1)
+
+  &__title
+    color: $dark-grey
+    font-size: 2.4em
+    margin-bottom: 5px
+
+  &__subtitle
+    color: $dark-grey
+    font-size: 1.6em
+    margin-bottom: 10px
+
+  &__desc
+    display: inline-block
+    color: rgba($dark-grey, 0.4)
+    font-size: 1.4em
+
+  &__features
+    list-style-type: circle
+    list-style-position: inside
+
+  &__feature
+    color: $dark-grey
+    font-size: 1.5em
+    margin-bottom: 25px
+
+    &:last-child
+      margin-bottom: 0
+
+  &__footer
+    padding: 15px 15px 25px
+
+  &__pricing
+    margin-bottom: 25px
+
+  &__price
+    color: $dark-grey
+    font-size: 4em
+    font-weight: 700
+
+    &::before
+      content: '$'
+      font-size: 1.4rem
+
+    &-unit
+      color: rgba($dark-grey, 0.4)
+      font-size: 2.4em
+      font-weight: 700
+
+  &__button
+    color: white
+    font-size: 1.8em
+    text-transform: uppercase
+    padding: 5px 30px
+    margin-right: 15px
+    background-color: $rose
+    border: none
+    border-radius: 3px
+    border-bottom: 1px solid darken($rose, 50%)
+
+
+// btn-store
+.btn-store
+  border-radius: 5px
+  padding: 10px 15px
+  display: flex
+  margin: 0 auto 25px
+  min-width: 230px
+
+  @each $btn-name, $btn-color in (apple, $apple-grey), (android, $android-green), (windows, $windows-blue)
+    &--#{$btn-name}
+      background-color: $btn-color
+
+  &__icon
+    display: inline-block
+    margin-right: 10px
+    color: white
+    .fa
+      color: white
+
+  &__content
+    padding-left: 10px
+    border-left: 1px solid rgba($dark-grey, 0.1)
+
+  &__text
+    color: white
+    text-transform: uppercase
+    font-size: 2em
+
+    &--small
+      text-align: left
+      font-size: 1.4em
+
+
+// form elements
+.subscribe
+
+  &-group
+    display: flex
+
+  &-input
+    width: 60%
+    font-size: 1.8em
+    border-top-left-radius: 5px
+    border-bottom-left-radius: 5px
+    border: none
+    padding: 10px 15px
+    @include breakpoint(phablet)
+      flex-grow: 1
+      width: auto
+
+  &-btn
+    color: white
+    width: 40%
+    font-size: 1.4em
+    border: none
+    padding: 0 15px
+    text-transform: uppercase
+    background-color: $rose
+    border-top-right-radius: 5px
+    border-bottom-right-radius: 5px
+
+    @include breakpoint(phablet)
+      flex-shrink: 1
+      width: auto
+      padding: 0 25px
+      font-size: 1.8em
+
+
+.form-group
+  margin-bottom: 25px
+
+.form-control
+  display: block
+  width: 100%
+  border: 1px solid $light-grey
+  border-radius: 3px
+  padding: 15px 25px
+  background-color: $input-color
+  color: $light-grey
+  font-size: 1.6em
+
+  &:focus
+    outline-color: $rose
+
+  &--message
+    min-height: 200px
+
+// testimonial slider
+
+@include slider(".t-slider", 4)
+
+
+// screenshot slider
+@include slider(".i-slider", 3)
+
+
+@keyframes fadeInLeft
+  0%
+    opacity: 0
+    transform: translateX(-20px)
+
+  100%
+    opacity: 1
+    transform: translateX(0)
+
+
+.fadeInLeft
+  animation-name: fadeInLeft
+
+@keyframes fadeInRight
+  0%
+    opacity: 0
+    transform: translateX(20px)
+
+  100%
+    opacity: 1
+    transform: translateX(0)
+
+.fadeInRight
+  animation-name: fadeInRight
+
+
+.animated
+  animation-duration: 1s
+  animation-fill-mode: both
+
+
+@keyframes fadeInDown
+  0%
+    opacity: 0
+    transform: translateY(-20px)
+
+  100%
+    opacity: 1
+    transform: translateY(0)
+
+.fadeInDown
+  animation-name: fadeInDown
+
+.iphone
+  position: relative
+  display: none
+  margin: 0 auto
+  @include breakpoint(tablet)
+    display: block
+    width: 194px
+    height: 408px
+
+  &__path
+    fill: none
+    stroke: white
+    stroke-width: 1.2
+    stroke-dasharray: 1159.9974365234375
+    stroke-dashoffset: 1159.9974365234375
+    animation-duration: 3s
+    animation-timing-function: linear
+    animation-fill-mode: forwards
+    opacity: 1
+
+    &--button
+      stroke-dasharray: 92.2982177734375
+      stroke-dashoffset: 92.2982177734375
+
+    &--circle
+      stroke-dasharray: 21.094148635864258
+      stroke-dashoffset: 21.094148635864258
+
+    &--small-circle
+      stroke-dasharray: 15.67774772644043
+      stroke-dashoffset: 15.67774772644043
+
+    &--speaker
+      stroke-dasharray: 68.20672607421875
+      stroke-dashoffset: 68.20672607421875
+
+  &__img,
+  &__svg
+    position: absolute
+    top: 0
+
+  &__img
+    opacity: 0
+    animation: showImg 500ms ease 2.5s forwards
+
+  &__svg
+    height: 408px
+    right: 0
+
+@keyframes drawOutline
+  90%
+    stroke-dashoffset: 0
+  100%
+    opacity: 0
+
+@keyframes showImg
+  100%
+    opacity: 1

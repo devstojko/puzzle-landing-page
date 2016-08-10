@@ -1,0 +1,88 @@
+
+@mixin slider($selector, $slides)
+
+  #{$selector}
+    overflow: hidden
+
+  #{$selector}__slides
+    display: flex
+    width: $slides * 100%
+    transition: all 0.3s ease-in-out
+
+  #{$selector}__slide
+    width: 100%
+
+  $length: $slides - 1
+  $jo: 100 / $slides
+  @for $i from 0 through $length
+
+    #{$selector}__nav-item--#{$i}:checked ~ #{$selector}__slides
+      transform: translateX( - +$i * $jo + % )
+
+
+@include slider(".i-slider", 2)
+
+.social-icon
+  display: block
+  width: 32px
+  height: 32px
+
+  @each $icon-name in (facebook, twitter, linkedin)
+    &--#{$icon-name}
+      background-image: url('../img/#{$icon-name}.jpg')
+
+$apple-grey: red
+
+.btn-store
+  border-radius: 5px
+  padding: 10px 15px
+  display: flex
+  margin: 0 auto 25px
+  min-width: 230px
+
+  @each $icon-name, $icon-color in (apple, $apple-grey), (android, $apple-grey)
+    &--#{$icon-name}
+      background-color: $icon-color
+
+
+@mixin breakpoint($point)
+  @if $point == desktop
+    @media (min-width: 75em)
+      @content
+
+  @else if $point == laptop
+    @media (min-width: 63em)
+      @content
+
+  @else if $point == tablet
+    @media (min-width: 48em)
+      @content
+
+  @else if $point == phablet
+    @media (min-width: 34em)
+      @content
+
+%column
+  padding-left: 15px
+  padding-right: 15px
+  box-sizing: border-box
+  flex-basis: 100%
+  max-width: 100%
+
+$columns: 12
+$eachColumn: 100 / $columns + %
+
+@mixin columns
+
+  @for $i from 1 through 12
+    .col-#{$i}
+      @extend %column
+
+  @include breakpoint(laptop)
+
+    @for $i from 1 through 12
+      .col-#{$i}
+        flex-basis: $i * $eachColumn
+        width: $i * $eachColumn
+
+@include columns
